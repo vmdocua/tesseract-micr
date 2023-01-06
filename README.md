@@ -1,6 +1,6 @@
-# tesseract-micr
+# tesseract_micr
 
 ## MICR recognition with Tesseract/Python 
 
 
-Under construction yet...
+Project is under construction yet...

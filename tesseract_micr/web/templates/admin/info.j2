@@ -1,0 +1,19 @@
+<html>
+<head>
+    <title>tesseract_micr system info</title>
+</head>
+
+<body>
+    <h3>tesseract_micr system info</h3>
+    <br>
+
+    <table>
+        {% for k,v in sysinfo.items() %}
+        <tr>
+            <td><b>{{ k }}:</b></td>
+            <td>{{ v }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
