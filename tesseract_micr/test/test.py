@@ -5,6 +5,7 @@ import socket
 from flask import Flask, render_template, make_response, \
     jsonify, request, Markup, Blueprint
 
+from tesseract_micr.ocr.ocr import TesseractOcr
 
 logger = logging.getLogger(__name__)
 logger.debug("name=" + __name__)
@@ -37,3 +38,8 @@ def ping():
     return make_response(jsonify(res), 200, headers)
 
 
+@test_bp.route('/tesseract_version', methods=['GET', 'POST'])
+def tesseract_version():
+    logger.debug("tesseract_version")
+    t = TesseractOcr()
+    return Markup(t.version())
