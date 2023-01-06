@@ -35,9 +35,9 @@ Python 3.10.9
 Poetry (version 1.3.1)
 
 [Setup venv]
-# setup ~/tesseract-micr/venv environment
+# setup ~/tesseract_micr/venv environment
 
- cd ~/tesseract-micr
+ cd ~/tesseract_micr
  python3 -m venv venv
  ./venv/bin/pip install poetry
 
@@ -55,7 +55,7 @@ Poetry (version 1.3.1)
 
 ./venv/bin/poetry build
 
-./venv/bin/poetry run test_1
+./venv/bin/poetry run app
 
 
 
