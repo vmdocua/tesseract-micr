@@ -5,6 +5,8 @@ import socket
 from flask import render_template, make_response, \
     jsonify, request, Markup, Blueprint
 
+from tesseract_micr.core import app_config
+
 from tesseract_micr.ocr import TesseractOcr
 
 logger = logging.getLogger(__name__)
@@ -43,3 +45,27 @@ def tesseract_version():
     logger.debug("tesseract_version")
     t = TesseractOcr()
     return Markup(t.version())
+
+@test_bp.route('/ocr_plain', methods=['GET', 'POST'])
+def ocr_plain():
+    logger.debug("ocr_plain")
+    path = request.form["path"]
+    logger.debug(f"path={path}")
+    path2 = app_config.ROOT_PATH + "/" + path
+    logger.debug(f"path2={path2}")
+    t = TesseractOcr()
+    res = t.ocrPlain(path2)
+    logger.debug(f"res={res}")
+    return Markup(res)
+
+@test_bp.route('/ocr_micr', methods=['GET', 'POST'])
+def ocr_micr():
+    logger.debug("ocr_micr")
+    path = request.form["path"]
+    logger.debug(f"path={path}")
+    path2 = app_config.ROOT_PATH + "/" + path
+    logger.debug(f"path2={path2}")
+    t = TesseractOcr()
+    res = t.ocrMicr(path2)
+    logger.debug(f"res={res}")
+    return Markup(res)

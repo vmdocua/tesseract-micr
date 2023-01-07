@@ -34,7 +34,7 @@ class AppConfig:
         self._boot = None
         self._config = None
         self._initialized = False
-        self._rootPath = str(Path(__file__).parent.parent.parent)
+        self._rootPath = str(Path(__file__).parent.parent)
         self._hostConfigPath = "/etc/docsultant/tesseract-mini"
         self._secureConfigPath = "/etc/docsultant/tesseract-mini"
 

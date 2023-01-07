@@ -40,7 +40,7 @@ def app_init():
     logFiles = [
         app_config.SECURE_CONFIG_PATH + '/' + LOGGING_INI,
         app_config.HOST_CONFIG_PATH + '/' + LOGGING_INI,
-        app_config.ROOT_PATH + '/tesseract_micr/' + LOGGING_INI
+        app_config.ROOT_PATH + '/' + LOGGING_INI
     ]
 
     for logFile in logFiles:
@@ -63,7 +63,7 @@ def app_init():
     # load configuration from multiple INI files and merge
     TESSERACT_MICR_INI = 'tesseract_micr.ini'
     iniPaths = [
-        app_config.ROOT_PATH + '/tesseract_micr/' + TESSERACT_MICR_INI,
+        app_config.ROOT_PATH + '/' + TESSERACT_MICR_INI,
         app_config.HOST_CONFIG_PATH + '/' + TESSERACT_MICR_INI,
         app_config.SECURE_CONFIG_PATH + '/' + TESSERACT_MICR_INI
     ]
