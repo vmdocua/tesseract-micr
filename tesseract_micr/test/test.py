@@ -2,10 +2,10 @@ import logging
 from datetime import datetime
 import socket
 
-from flask import Flask, render_template, make_response, \
+from flask import render_template, make_response, \
     jsonify, request, Markup, Blueprint
 
-from tesseract_micr.ocr.ocr import TesseractOcr
+from tesseract_micr.ocr import TesseractOcr
 
 logger = logging.getLogger(__name__)
 logger.debug("name=" + __name__)

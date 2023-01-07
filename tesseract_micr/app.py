@@ -1,11 +1,9 @@
 import logging
-from datetime import datetime
-import socket
 
-from flask import Flask, render_template, make_response, jsonify, request, Markup
+from flask import Flask, render_template
 
-from tesseract_micr.core.app import app_init
-from tesseract_micr.core.app import app_config
+from core import app_init
+from core import app_config
 
 from tesseract_micr.admin import admin as admin
 from tesseract_micr.test import test as test

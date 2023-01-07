@@ -1,12 +1,12 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import timedelta
 import socket
 import time
 
 from flask import Flask, render_template, make_response, \
-    jsonify, request, Markup, Blueprint, redirect
+    request, Blueprint, redirect
 
-from tesseract_micr.core.app import app_config
+from tesseract_micr.core import app_config
 
 logger = logging.getLogger(__name__)
 logger.debug("name=" + __name__)
