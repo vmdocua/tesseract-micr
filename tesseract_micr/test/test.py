@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 import socket
+import os
 
 from flask import render_template, make_response, \
     jsonify, request, Markup, Blueprint
@@ -56,7 +57,7 @@ def ocr_plain():
     logger.debug("ocr_plain")
     path = request.form["path"]
     logger.debug(f"path={path}")
-    path2 = app_config.ROOT_PATH + "/" + path
+    path2 = os.path.join(app_config.ROOT_PATH, path);
     logger.debug(f"path2={path2}")
     t = TesseractOcr()
     res = t.ocrPlain(path2)
@@ -68,7 +69,7 @@ def ocr_micr():
     logger.debug("ocr_micr")
     path = request.form["path"]
     logger.debug(f"path={path}")
-    path2 = app_config.ROOT_PATH + "/" + path
+    path2 = os.path.join(app_config.ROOT_PATH, path);
     logger.debug(f"path2={path2}")
     t = TesseractOcr()
     res = t.ocrMicr(path2)
@@ -80,7 +81,7 @@ def ocr_micr_hocr():
     logger.debug("ocr_micr_hocr")
     path = request.form["path"]
     logger.debug(f"path={path}")
-    path2 = app_config.ROOT_PATH + "/" + path
+    path2 = os.path.join(app_config.ROOT_PATH, path);
     logger.debug(f"path2={path2}")
     t = TesseractOcr()
     res = t.ocrMicrHocr(path2)
@@ -90,5 +91,15 @@ def ocr_micr_hocr():
 @test_bp.route('/vips_version', methods=['GET', 'POST'])
 def vips_version():
     logger.debug("vips_version")
-    t = ImageProcessor()
-    return response_ok(t.version(), "text/plain")
+    p = ImageProcessor()
+    return response_ok(p.version(), "text/plain")
+
+@test_bp.route('/vips_bw', methods=['GET', 'POST'])
+def vips_bw():
+    logger.debug("vips_bw")
+    path = request.form["path"]
+    logger.debug(f"path={path}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    p = ImageProcessor()
+    data = p.bw(path2)
+    return response_ok(data, p.OUT_MIME_TYPE)
