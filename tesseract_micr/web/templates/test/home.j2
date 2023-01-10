@@ -45,7 +45,7 @@
         <input type="hidden" name="action" value="ocr_plain"/>
         <table>
             <tr>
-                <td></td>
+                <td>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
             </tr>
             <tr>
@@ -60,7 +60,7 @@
         <input type="hidden" name="action" value="ocr_micr"/>
         <table>
             <tr>
-                <td></td>
+                <td>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
             </tr>
             <tr>
@@ -75,7 +75,7 @@
         <input type="hidden" name="action" value="ocr_micr_hocr"/>
         <table>
             <tr>
-                <td></td>
+                <td>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
             </tr>
             <tr>
@@ -101,7 +101,7 @@
         <input type="hidden" name="action" value="vips_bw"/>
         <table>
             <tr>
-                <td></td>
+                <td>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
             </tr>
             <tr>
@@ -111,6 +111,58 @@
         </table>
     </form><br>
 
+    <h3>vips_sharpen</h3>
+    <form method="post" action="vips_sharpen">
+        <input type="hidden" name="action" value="vips_sharpen"/>
+        <table>
+            <tr>
+                <td>Image:</td>
+                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="vips_sharpen" /></td>
+            </tr>
+        </table>
+    </form><br>
+
+    <h3>vips_rotate</h3>
+    <form method="post" action="vips_rotate">
+        <input type="hidden" name="action" value="vips_rotate"/>
+        <table>
+            <tr>
+                <td>Image:</td>
+                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
+            </tr>
+            <tr>
+                <td>Angle(90,180,270):</td>
+                <td><input name="angle" type="text" value="90" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="vips_rotate" /></td>
+            </tr>
+        </table>
+    </form><br>
+
+    <h3>vips_threshold</h3>
+    <form method="post" action="vips_threshold">
+        <input type="hidden" name="action" value="vips_threshold"/>
+        <table>
+            <tr>
+                <td>Image:</td>
+                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
+            </tr>
+            <tr>
+                <td>Threshold(0..255):</td>
+                <td><input name="threshold" type="text" value="140" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="vips_threshold" /></td>
+            </tr>
+        </table>
+    </form><br>
 
 </body>
 </html>

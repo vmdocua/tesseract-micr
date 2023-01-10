@@ -20,22 +20,33 @@ class ImageProcessor:
         logger.debug("bw(...)")
         image = self.load(path)
         image = image.colourspace("b-w")
-        data = image.write_to_buffer(self.OUT_FORMAT)
-        return data
+        return self.toBuffer(image)
 
     def load(self, pathOrData):
         image = pyvips.Image.new_from_file(pathOrData, access="sequential")
         return image
 
+    def toBuffer(self, image):
+        data = image.write_to_buffer(self.OUT_FORMAT)
+        return data
 
-    def rotate(self):
-        return "TODO:rotate"
+    def rotate(self, path, angle):
+        logger.debug(f"rotate(.., angle={angle})")
+        image = self.load(path)
+        image = image.rot("d{}".format(angle))
+        return self.toBuffer(image)
 
-    def sharpen(self):
-        return "TODO:sharpen"
+    def sharpen(self, path):
+        logger.debug("sharpen(...)")
+        image = self.load(path)
+        image = image.sharpen()
+        return self.toBuffer(image)
 
-    def threshold(self):
-        return "TODO:threshold"
+    def threshold(self, path, threshold):
+        logger.debug(f"threshold(.., threshold={threshold})")
+        image = self.load(path)
+        image = image.relational_const("moreeq", threshold)
+        return self.toBuffer(image)
 
     def version(self):
         return "vips-{}.{}.{}".format(pyvips.version(0), pyvips.version(1), pyvips.version(2))

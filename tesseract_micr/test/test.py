@@ -103,3 +103,35 @@ def vips_bw():
     p = ImageProcessor()
     data = p.bw(path2)
     return response_ok(data, p.OUT_MIME_TYPE)
+
+@test_bp.route('/vips_sharpen', methods=['GET', 'POST'])
+def vips_sharpen():
+    logger.debug("vips_sharpen")
+    path = request.form["path"]
+    logger.debug(f"path={path}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    p = ImageProcessor()
+    data = p.sharpen(path2)
+    return response_ok(data, p.OUT_MIME_TYPE)
+
+@test_bp.route('/vips_rotate', methods=['GET', 'POST'])
+def vips_rotate():
+    logger.debug("vips_rotate")
+    path = request.form["path"]
+    angle = int(request.form["angle"])
+    logger.debug(f"path={path}, angle={angle}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    p = ImageProcessor()
+    data = p.rotate(path2, angle)
+    return response_ok(data, p.OUT_MIME_TYPE)
+
+@test_bp.route('/vips_threshold', methods=['GET', 'POST'])
+def vips_threshold():
+    logger.debug("vips_threshold")
+    path = request.form["path"]
+    threshold = int(request.form["threshold"])
+    logger.debug(f"path={path}, threshold={threshold}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    p = ImageProcessor()
+    data = p.threshold(path2, threshold)
+    return response_ok(data, p.OUT_MIME_TYPE)
