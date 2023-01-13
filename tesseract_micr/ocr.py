@@ -3,6 +3,7 @@ import logging.config
 import sys
 import os
 import pytesseract;
+from tesseract_micr.imgproc import ImageProcessor
 
 from core import app_config
 
@@ -10,17 +11,22 @@ logger = logging.getLogger(__name__)
 
 class TesseractOcr:
 
-    def __int__(self):
-        pass
+    def __init__(self):
+        self.imgProc = ImageProcessor()
 
-    def ocrPlain(self, path):
-        logger.debug(f'ocrPlain(path={path})')
+    def ocrCheck(self, path):
+        logger.debug(f'ocrCheck(path={path})')
+        img = self.imgProc.chain(path, "sharpen|threshold(140)|bw")
+        return self.tesseractMicr(img)
+
+    def tesseractPlain(self, path):
+        logger.debug(f'tesseractPlain(path={path})')
         res = pytesseract.image_to_string(path)
         logger.debug("-> "+res)
         return res
 
-    def ocrMicr(self, path):
-        logger.debug(f'ocrMicr(path={path})')
+    def tesseractMicr(self, path):
+        logger.debug(f'tesseractMicr(path={path})')
         tessdataPath = os.path.join(app_config.ROOT_PATH, "tessdata")
         cfg = f" --tessdata-dir {tessdataPath}" \
               " -l micr --psm 6" \
@@ -30,8 +36,8 @@ class TesseractOcr:
         logger.debug("-> "+res)
         return res
 
-    def ocrMicrHocr(self, path):
-        logger.debug(f'ocrMicrHocr(path={path})')
+    def tesseractMicrHocr(self, path):
+        logger.debug(f'tesseractMicrHocr(path={path})')
         tessdataPath = os.path.join(app_config.ROOT_PATH, "tessdata")
         cfg = f" --tessdata-dir {tessdataPath}" \
               " -l micr --psm 6" \
@@ -47,7 +53,7 @@ class TesseractOcr:
         #logger.debug("-> "+res)
         return res
 
-    def version(self):
+    def tesseractVersion(self):
         return "tesseract {}".format(pytesseract.get_tesseract_version())
 
 

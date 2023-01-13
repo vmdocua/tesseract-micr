@@ -22,8 +22,39 @@ class ImageProcessor:
         image = image.colourspace("b-w")
         return self.toBuffer(image)
 
+    def chain(self, path, commands):
+        logger.debug(f"chain(commands={commands})")
+        lst = commands.split("|")
+        res = path
+        for cmd in lst:
+            logger.debug("cmd="+cmd)
+            args = []
+            name = cmd
+            i = cmd.find("(")
+            if i >= 0:
+                name = cmd[:i]
+                a = cmd[i:].strip("() ")
+                args = a.split(",")
+
+            f = getattr(self, name)
+            if len(args) == 0:
+                res = f(res)
+            elif len(args) == 1:
+                res = f(res, args[0])
+            elif len(args) == 2:
+                res = f(res, args[0], args[1])
+            elif len(args) == 3:
+                res = f(res, args[0], args[1], args[2])
+            else:
+                assert "Unsupported, cmd.length="+cmd.length
+
+        return res
+
     def load(self, pathOrData):
-        image = pyvips.Image.new_from_file(pathOrData, access="sequential")
+        if isinstance(pathOrData, bytes):
+            image = pyvips.Image.new_from_buffer(pathOrData, "")
+        else:
+            image = pyvips.Image.new_from_file(pathOrData, access="sequential")
         return image
 
     def toBuffer(self, image):
@@ -45,8 +76,8 @@ class ImageProcessor:
     def threshold(self, path, threshold):
         logger.debug(f"threshold(.., threshold={threshold})")
         image = self.load(path)
-        image = image.relational_const("moreeq", threshold)
+        image = image.relational_const("moreeq", int(threshold))
         return self.toBuffer(image)
 
-    def version(self):
+    def vipsVersion(self):
         return "vips-{}.{}.{}".format(pyvips.version(0), pyvips.version(1), pyvips.version(2))

@@ -50,41 +50,41 @@ def response_ok(res, mimetype):
 def tesseract_version():
     logger.debug("tesseract_version")
     t = TesseractOcr()
-    return Markup(t.version())
+    return Markup(t.tesseractVersion())
 
-@test_bp.route('/ocr_plain', methods=['GET', 'POST'])
-def ocr_plain():
-    logger.debug("ocr_plain")
+@test_bp.route('/tesseract_plain', methods=['GET', 'POST'])
+def tesseract_plain():
+    logger.debug("tesseract_plain")
     path = request.form["path"]
     logger.debug(f"path={path}")
     path2 = os.path.join(app_config.ROOT_PATH, path);
     logger.debug(f"path2={path2}")
     t = TesseractOcr()
-    res = t.ocrPlain(path2)
+    res = t.tesseractPlain(path2)
     logger.debug(f"res={res}")
     return response_ok(res, "text/plain")
 
-@test_bp.route('/ocr_micr', methods=['GET', 'POST'])
-def ocr_micr():
-    logger.debug("ocr_micr")
+@test_bp.route('/tesseract_micr', methods=['GET', 'POST'])
+def tesseract_micr():
+    logger.debug("tesseract_micr")
     path = request.form["path"]
     logger.debug(f"path={path}")
     path2 = os.path.join(app_config.ROOT_PATH, path);
     logger.debug(f"path2={path2}")
     t = TesseractOcr()
-    res = t.ocrMicr(path2)
+    res = t.tesseractMicr(path2)
     logger.debug(f"res={res}")
     return response_ok(res, "text/plain")
 
-@test_bp.route('/ocr_micr_hocr', methods=['GET', 'POST'])
-def ocr_micr_hocr():
-    logger.debug("ocr_micr_hocr")
+@test_bp.route('/tesseract_micr_hocr', methods=['GET', 'POST'])
+def tesseract_micr_hocr():
+    logger.debug("tesseract_micr_hocr")
     path = request.form["path"]
     logger.debug(f"path={path}")
     path2 = os.path.join(app_config.ROOT_PATH, path);
     logger.debug(f"path2={path2}")
     t = TesseractOcr()
-    res = t.ocrMicrHocr(path2)
+    res = t.tesseractMicrHocr(path2)
     #logger.debug(f"res={res}")
     return response_ok(res, "application/x-view-source")
 
@@ -92,7 +92,7 @@ def ocr_micr_hocr():
 def vips_version():
     logger.debug("vips_version")
     p = ImageProcessor()
-    return response_ok(p.version(), "text/plain")
+    return response_ok(p.vipsVersion(), "text/plain")
 
 @test_bp.route('/vips_bw', methods=['GET', 'POST'])
 def vips_bw():
@@ -135,3 +135,27 @@ def vips_threshold():
     p = ImageProcessor()
     data = p.threshold(path2, threshold)
     return response_ok(data, p.OUT_MIME_TYPE)
+
+@test_bp.route('/vips_chain', methods=['GET', 'POST'])
+def vips_chain():
+    logger.debug("vips_chain")
+    path = request.form["path"]
+    commands = request.form["commands"]
+    logger.debug(f"path={path}, commands={commands}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    p = ImageProcessor()
+    data = p.chain(path2, commands)
+    return response_ok(data, p.OUT_MIME_TYPE)
+
+@test_bp.route('/ocr_check', methods=['GET', 'POST'])
+def ocr_check():
+    logger.debug("ocr_check")
+    path = request.form["path"]
+    logger.debug(f"path={path}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    logger.debug(f"path2={path2}")
+    t = TesseractOcr()
+    res = t.ocrCheck(path2)
+    logger.debug(f"res={res}")
+    return response_ok(res, "text/plain")
+
