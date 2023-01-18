@@ -2,7 +2,9 @@ import logging
 import logging.config
 import sys
 import os
-import pytesseract;
+import io
+import pytesseract
+from PIL import Image
 from tesseract_micr.imgproc import ImageProcessor
 
 from core import app_config
@@ -14,9 +16,10 @@ class TesseractOcr:
     def __init__(self):
         self.imgProc = ImageProcessor()
 
-    def ocrCheck(self, path):
+    def ocrCheck(self, path, chain="sharpen|threshold(140)|bw"):
         logger.debug(f'ocrCheck(path={path})')
-        img = self.imgProc.chain(path, "sharpen|threshold(140)|bw")
+        img = self.imgProc.chain(path, chain)
+        img = Image.open(io.BytesIO(img))
         return self.tesseractMicr(img)
 
     def tesseractPlain(self, path):

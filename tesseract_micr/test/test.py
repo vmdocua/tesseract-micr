@@ -152,10 +152,12 @@ def ocr_check():
     logger.debug("ocr_check")
     path = request.form["path"]
     logger.debug(f"path={path}")
+    chain = request.form["chain"]
+    logger.debug(f"chain={chain}")
     path2 = os.path.join(app_config.ROOT_PATH, path);
     logger.debug(f"path2={path2}")
     t = TesseractOcr()
-    res = t.ocrCheck(path2)
+    res = t.ocrCheck(path2, chain)
     logger.debug(f"res={res}")
     return response_ok(res, "text/plain")
 
