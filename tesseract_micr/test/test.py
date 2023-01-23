@@ -85,6 +85,7 @@ def tesseract_micr_hocr():
     logger.debug(f"path2={path2}")
     t = TesseractOcr()
     res = t.tesseractMicrHocr(path2)
+    res = "\n".join([line.text for line in res.lines])
     #logger.debug(f"res={res}")
     return response_ok(res, "application/x-view-source")
 

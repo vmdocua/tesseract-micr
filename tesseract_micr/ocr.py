@@ -6,7 +6,7 @@ import io
 import pytesseract
 from PIL import Image
 from tesseract_micr.imgproc import ImageProcessor
-
+from tesseract_micr.hocr import HocrParser
 from core import app_config
 
 logger = logging.getLogger(__name__)
@@ -16,19 +16,21 @@ class TesseractOcr:
     def __init__(self):
         self.imgProc = ImageProcessor()
 
-    def ocrCheck(self, path, chain="sharpen|threshold(140)|bw"):
+    def ocrCheck(self, path, chain="sharpen|threshold(140)|bw") -> str:
         logger.debug(f'ocrCheck(path={path})')
         img = self.imgProc.chain(path, chain)
         img = Image.open(io.BytesIO(img))
-        return self.tesseractMicr(img)
+        doc = self.tesseractMicrHocr(img)
+        # TODO: do preliminary regexp filtering
+        return "\n".join([line.text for line in doc.lines])
 
-    def tesseractPlain(self, path):
+    def tesseractPlain(self, path) -> str:
         logger.debug(f'tesseractPlain(path={path})')
         res = pytesseract.image_to_string(path)
         logger.debug("-> "+res)
         return res
 
-    def tesseractMicr(self, path):
+    def tesseractMicr(self, path) -> str:
         logger.debug(f'tesseractMicr(path={path})')
         tessdataPath = os.path.join(app_config.ROOT_PATH, "tessdata")
         cfg = f" --tessdata-dir {tessdataPath}" \
@@ -39,7 +41,7 @@ class TesseractOcr:
         logger.debug("-> "+res)
         return res
 
-    def tesseractMicrHocr(self, path):
+    def tesseractMicrHocr(self, path) -> HocrParser.Document:
         logger.debug(f'tesseractMicrHocr(path={path})')
         tessdataPath = os.path.join(app_config.ROOT_PATH, "tessdata")
         cfg = f" --tessdata-dir {tessdataPath}" \
@@ -53,8 +55,11 @@ class TesseractOcr:
         res = pytesseract.image_to_pdf_or_hocr(path, \
                      lang='micr', config=cfg, extension='hocr')
         res = res.decode('utf-8')
+
+        hp = HocrParser()
+        doc = hp.parse(res)
         #logger.debug("-> "+res)
-        return res
+        return doc
 
     def tesseractVersion(self):
         return "tesseract {}".format(pytesseract.get_tesseract_version())
