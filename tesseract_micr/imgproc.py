@@ -16,7 +16,8 @@ logger = logging.getLogger(__name__)
 class ImageProcessor:
 
     #: default output format
-    OUT_FORMAT    = ".tif"
+    OUT_VIPS_FORMAT = ".tif"
+    OUT_PIL_FORMAT = "TIFF"
 
     #: default output mime type
     OUT_MIME_TYPE = "image/tiff"
@@ -71,11 +72,11 @@ class ImageProcessor:
 
     def toBuffer(self, image):
         if isinstance(image, pyvips.Image):
-            data = image.write_to_buffer(self.OUT_FORMAT)
+            data = image.write_to_buffer(self.OUT_VIPS_FORMAT)
             return data
         elif isinstance(image, PIL.Image.Image):
             b = io.BytesIO()
-            image.save(b, format="TIFF")
+            image.save(b, format=self.OUT_PIL_FORMAT)
             b.seek(0)
             data = b.read()
             return data
