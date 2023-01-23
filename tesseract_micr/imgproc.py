@@ -4,7 +4,7 @@ import sys
 import os
 import pyvips;
 
-from core import app_config
+from tesseract_micr.core import app_config
 
 logger = logging.getLogger(__name__)
 

@@ -7,7 +7,7 @@ import pytesseract
 from PIL import Image
 from tesseract_micr.imgproc import ImageProcessor
 from tesseract_micr.hocr import HocrParser
-from core import app_config
+from tesseract_micr.core import app_config
 
 logger = logging.getLogger(__name__)
 
