@@ -89,6 +89,18 @@ def tesseract_micr_hocr():
     #logger.debug(f"res={res}")
     return response_ok(res, "application/x-view-source")
 
+@test_bp.route('/pil_border', methods=['GET', 'POST'])
+def pil_border():
+    logger.debug("pil_border")
+    path = request.form["path"]
+    logger.debug(f"path={path}")
+    width = int(request.form["width"])
+    logger.debug(f"width={width}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    p = ImageProcessor()
+    data = p.border(path2, width)
+    return response_ok(data, p.OUT_MIME_TYPE)
+
 @test_bp.route('/vips_version', methods=['GET', 'POST'])
 def vips_version():
     logger.debug("vips_version")

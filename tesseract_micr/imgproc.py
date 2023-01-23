@@ -1,8 +1,13 @@
+import io
 import logging
 import logging.config
 import sys
 import os
-import pyvips;
+import PIL
+from PIL import Image
+from PIL import ImageOps
+import pyvips
+
 
 from tesseract_micr.core import app_config
 
@@ -15,6 +20,13 @@ class ImageProcessor:
 
     #: default output mime type
     OUT_MIME_TYPE = "image/tiff"
+
+    def border(self, path, width=12):
+        logger.debug("border(...,{})".format(width))
+        image = Image.open(path)
+        image = ImageOps.expand(image, border=width, fill="white")
+        data = self.toBuffer(image)
+        return data
 
     def bw(self, path):
         logger.debug("bw(...)")
@@ -58,8 +70,16 @@ class ImageProcessor:
         return image
 
     def toBuffer(self, image):
-        data = image.write_to_buffer(self.OUT_FORMAT)
-        return data
+        if isinstance(image, pyvips.Image):
+            data = image.write_to_buffer(self.OUT_FORMAT)
+            return data
+        elif isinstance(image, PIL.Image.Image):
+            b = io.BytesIO()
+            image.save(b, format="TIFF")
+            b.seek(0)
+            data = b.read()
+            return data
+        return None
 
     def rotate(self, path, angle):
         logger.debug(f"rotate(.., angle={angle})")
