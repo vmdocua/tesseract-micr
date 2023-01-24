@@ -24,14 +24,14 @@ class ImageProcessor:
 
     def border(self, path, width=12):
         logger.debug("border(...,{})".format(width))
-        image = Image.open(path)
+        image = self.pil_load(path)
         image = ImageOps.expand(image, border=width, fill="white")
         data = self.toBuffer(image)
         return data
 
     def bw(self, path):
         logger.debug("bw(...)")
-        image = self.load(path)
+        image = self.vips_load(path)
         image = image.colourspace("b-w")
         return self.toBuffer(image)
 
@@ -63,12 +63,35 @@ class ImageProcessor:
 
         return res
 
-    def load(self, pathOrData):
+    def vips_load(self, pathOrData):
+        pathOrData = self.toVips(pathOrData)
         if isinstance(pathOrData, bytes):
             image = pyvips.Image.new_from_buffer(pathOrData, "")
         else:
             image = pyvips.Image.new_from_file(pathOrData, access="sequential")
         return image
+
+    def pil_load(self, pathOrData):
+        pathOrData = self.toPil(pathOrData)
+        if isinstance(pathOrData, bytes):
+            b = io.BytesIO()
+            b.write(pathOrData)
+            b.seek(0)
+            # b.close()
+            image = Image.open(b)
+        else:
+            image = Image.open(pathOrData)
+        return image
+
+    def toPil(self, pathOrData):
+        if isinstance(pathOrData, pyvips.Image):
+            return self.toBuffer(pathOrData)
+        return pathOrData
+
+    def toVips(self, pathOrData):
+        if isinstance(pathOrData, PIL.Image.Image):
+            return self.toBuffer(pathOrData)
+        return pathOrData
 
     def toBuffer(self, image):
         if isinstance(image, pyvips.Image):
@@ -84,19 +107,19 @@ class ImageProcessor:
 
     def rotate(self, path, angle):
         logger.debug(f"rotate(.., angle={angle})")
-        image = self.load(path)
+        image = self.vips_load(path)
         image = image.rot("d{}".format(angle))
         return self.toBuffer(image)
 
     def sharpen(self, path):
         logger.debug("sharpen(...)")
-        image = self.load(path)
+        image = self.vips_load(path)
         image = image.sharpen()
         return self.toBuffer(image)
 
     def threshold(self, path, threshold):
         logger.debug(f"threshold(.., threshold={threshold})")
-        image = self.load(path)
+        image = self.vips_load(path)
         image = image.relational_const("moreeq", int(threshold))
         return self.toBuffer(image)
 

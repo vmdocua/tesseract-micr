@@ -5,8 +5,8 @@ from flask import Flask, render_template
 from core import app_init
 from core import app_config
 
-from tesseract_micr.admin import admin as admin
-from tesseract_micr.test import test as test
+from tesseract_micr.app.admin import admin as admin
+from tesseract_micr.app.test import test as test
 
 logger = logging.getLogger(__name__)
 logger.debug("name=" + __name__)
@@ -17,7 +17,7 @@ def create_flask_app() -> Flask:
 
     logger.info("app")
 
-    app = Flask(__name__, template_folder='web/templates', static_folder='web/static')
+    app = Flask(__name__, template_folder='app/web/templates', static_folder='app/web/static')
     logger.debug("Loading Flask app config...")
     app.config.from_mapping(app_config.flask)
 

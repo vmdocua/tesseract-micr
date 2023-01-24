@@ -31,6 +31,19 @@ class TesseractOcr:
         logger.debug("-> "+res)
         return res
 
+    def tesseractHocr(self, path) -> HocrParser.Document:
+        logger.debug(f'tesseractHocr(path={path})')
+        cfg = f" -c hocr_char_boxes=1" \
+              " hocr"
+        logger.debug(f"cfg={cfg}")
+        res = pytesseract.image_to_pdf_or_hocr(path, config=cfg, extension='hocr')
+        res = res.decode('utf-8')
+
+        hp = HocrParser()
+        doc = hp.parse(res)
+        return doc
+
+
     def tesseractMicr(self, path) -> str:
         logger.debug(f'tesseractMicr(path={path})')
         tessdataPath = os.path.join(app_config.ROOT_PATH, "tessdata")

@@ -13,6 +13,7 @@ class HocrParser:
         def __init__(self):
             self.lines = []
             self.pages = []
+            self.hocr = None  # str
 
         def add_page(self, page) -> None:
             self.pages.append(page)
@@ -114,6 +115,7 @@ class HocrParser:
     def parse(self, s: str) -> Document:
         logger.debug("parse(...)")
         doc = HocrParser.Document()
+        doc.hocr = s
         d = BeautifulSoup(s, "html.parser")
         self.parse_page(doc, d)
         return doc

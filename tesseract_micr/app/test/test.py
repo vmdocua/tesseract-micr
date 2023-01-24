@@ -64,6 +64,21 @@ def tesseract_plain():
     logger.debug(f"res={res}")
     return response_ok(res, "text/plain")
 
+@test_bp.route('/tesseract_hocr', methods=['GET', 'POST'])
+def tesseract_hocr():
+    logger.debug("tesseract_hocr")
+    path = request.form["path"]
+    logger.debug(f"path={path}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    logger.debug(f"path2={path2}")
+    t = TesseractOcr()
+    res = t.tesseractHocr(path2)
+    res2 = "\n".join([line.text for line in res.lines])
+    res2 = res2 + "\n\n##############################\n\n" + res.hocr
+    #logger.debug(f"res={res}")
+    return response_ok(res2, "application/x-view-source")
+
+
 @test_bp.route('/tesseract_micr', methods=['GET', 'POST'])
 def tesseract_micr():
     logger.debug("tesseract_micr")
@@ -85,9 +100,10 @@ def tesseract_micr_hocr():
     logger.debug(f"path2={path2}")
     t = TesseractOcr()
     res = t.tesseractMicrHocr(path2)
-    res = "\n".join([line.text for line in res.lines])
+    res2 = "\n".join([line.text for line in res.lines])
+    res2 = res2 + "\n\n##############################\n\n" + res.hocr
     #logger.debug(f"res={res}")
-    return response_ok(res, "application/x-view-source")
+    return response_ok(res2, "application/x-view-source")
 
 @test_bp.route('/pil_border', methods=['GET', 'POST'])
 def pil_border():
