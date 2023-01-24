@@ -31,20 +31,10 @@ class AppConfig:
     # AppConfig members
 
     def __init__(self):
-        self._boot = None
         self._config = None
         self._initialized = False
         self._rootPath = str(Path(__file__).parent.parent)
-        self._hostConfigPath = "/etc/docsultant/tesseract-mini"
-        self._secureConfigPath = "/etc/docsultant/tesseract-mini"
-
-        bootPath = self._hostConfigPath + "/boot.ini";
-        if os.path.exists(bootPath):
-            self._boot = configparser.RawConfigParser()
-            # fix lowercase/case insensitive issue
-            self._boot.optionxform = str
-            self._boot.read([bootPath])
-
+        self._hostConfigPath = "/etc/docsultant/tesseract_micr"
         self.START_TIME = time.time()
         self.CONFIG_PATH = None
 
@@ -72,10 +62,6 @@ class AppConfig:
         return d
 
     def _getEnv(self, key, defVal=None):
-        if self._boot is not None:
-            if self._boot.has_option(self.SECTION_BOOT_ENV, key):
-                defVal = self._boot.get(self.SECTION_BOOT_ENV, key)
-
         return os.getenv(key, defVal)
 
     def _getListStr(self, section, name) -> list:
@@ -140,10 +126,6 @@ class AppConfig:
     @property
     def HOST_CONFIG_PATH(self):
         return self._hostConfigPath;
-
-    @property
-    def SECURE_CONFIG_PATH(self):
-        return self._secureConfigPath;
 
     @property
     def ENV(self):

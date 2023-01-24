@@ -12,23 +12,6 @@ logger = logging.getLogger(__name__)
 
 app_config = AppConfig()
 
-class NamedStringIO(StringIO):
-
-    def __init__(self, name, content):
-        super(NamedStringIO, self).__init__(content)
-        self._name = name
-
-
-    def __str__(self):
-        return self._name
-
-def _config_request(url):
-    req = urllib.request.Request(url)
-    if app_config.CONFIG_SERVER_USER is not None:
-        s1 = base64.b64encode(bytes(f"{app_config.CONFIG_SERVER_USER}:{app_config.CONFIG_SERVER_PASSWORD}", 'ascii'))
-        req.add_header("Authorization", "Basic %s" % s1.decode('utf-8'))
-    return req
-
 def app_init():
 
     if app_config.initialized():
@@ -38,7 +21,6 @@ def app_init():
 
     LOGGING_INI = 'logging.ini'
     logFiles = [
-        app_config.SECURE_CONFIG_PATH + '/' + LOGGING_INI,
         app_config.HOST_CONFIG_PATH + '/' + LOGGING_INI,
         app_config.ROOT_PATH + '/' + LOGGING_INI
     ]
@@ -64,8 +46,7 @@ def app_init():
     TESSERACT_MICR_INI = 'tesseract_micr.ini'
     iniPaths = [
         app_config.ROOT_PATH + '/' + TESSERACT_MICR_INI,
-        app_config.HOST_CONFIG_PATH + '/' + TESSERACT_MICR_INI,
-        app_config.SECURE_CONFIG_PATH + '/' + TESSERACT_MICR_INI
+        app_config.HOST_CONFIG_PATH + '/' + TESSERACT_MICR_INI
     ]
 
     iniFiles = None
