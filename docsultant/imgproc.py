@@ -83,13 +83,14 @@ class ImageProcessor:
         return self.to_buffer(image)
 
     def vips_load(self, pathOrData) -> pyvips.Image:
-        pathOrData = self.to_vips(pathOrData)
+        #pathOrData = self.to_vips(pathOrData)
         if isinstance(pathOrData, bytes):
             image = pyvips.Image.new_from_buffer(pathOrData, "")
         else:
             image = pyvips.Image.new_from_file(pathOrData, access="sequential")
         return image
 
+    """
     def pil_load(self, pathOrData):
         pathOrData = self.to_pil(pathOrData)
         if isinstance(pathOrData, bytes):
@@ -102,11 +103,12 @@ class ImageProcessor:
         if isinstance(pathOrData, pyvips.Image):
             return self.to_buffer(pathOrData)
         return pathOrData
-
+    
     def to_vips(self, pathOrData):
         if isinstance(pathOrData, PIL.Image.Image):
             return self.to_buffer(pathOrData)
         return pathOrData
+    """
 
     def to_buffer(self, image):
         if isinstance(image, pyvips.Image):
