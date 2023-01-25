@@ -9,7 +9,7 @@ from PIL import ImageOps
 import pyvips
 
 
-from tesseract_micr.core import app_config
+from docsultant.core import app_config
 
 logger = logging.getLogger(__name__)
 

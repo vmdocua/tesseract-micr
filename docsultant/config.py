@@ -34,7 +34,7 @@ class AppConfig:
         self._config = None
         self._initialized = False
         self._rootPath = str(Path(__file__).parent.parent)
-        self._hostConfigPath = "/etc/docsultant/tesseract_micr"
+        self._hostConfigPath = "/etc/docsultant/docsultant"
         self.START_TIME = time.time()
         self.CONFIG_PATH = None
 

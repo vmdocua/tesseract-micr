@@ -1,0 +1,28 @@
+P {
+	FONT-SIZE: -1;
+	FONT-FAMILY: verdana;
+}
+
+H3 {
+	FONT-SIZE: 20;
+	FONT-FAMILY: verdana;
+}
+
+A {
+	TEXT-DECORATION: none;
+	FONT-SIZE: -1;
+	FONT-FAMILY: verdana;
+}
+
+A:visited {
+}
+
+A:active {
+	TEXT-DECORATION: underline
+}
+
+A:hover {
+	TEXT-DECORATION: underline
+}
+
+

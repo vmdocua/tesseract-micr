@@ -1,5 +1,5 @@
 import pytest
-from tesseract_micr.ocr import TesseractOcr
+from docsultant.ocr import TesseractOcr
 
 def test_tesseract_version():
     t = TesseractOcr()

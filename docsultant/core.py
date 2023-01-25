@@ -6,7 +6,7 @@ from io import StringIO
 import urllib.request
 import base64
 from pathlib import Path
-from tesseract_micr.config import AppConfig
+from docsultant.config import AppConfig
 
 logger = logging.getLogger(__name__)
 

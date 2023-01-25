@@ -6,10 +6,10 @@ import os
 from flask import render_template, make_response, \
     jsonify, request, Markup, Blueprint
 
-from tesseract_micr.core import app_config
+from docsultant.core import app_config
 
-from tesseract_micr.ocr import TesseractOcr
-from tesseract_micr.imgproc import ImageProcessor
+from docsultant.ocr import TesseractOcr
+from docsultant.imgproc import ImageProcessor
 
 logger = logging.getLogger(__name__)
 logger.debug("name=" + __name__)
@@ -81,7 +81,7 @@ def tesseract_hocr():
 
 @test_bp.route('/tesseract_micr', methods=['GET', 'POST'])
 def tesseract_micr():
-    logger.debug("tesseract_micr")
+    logger.debug("docsultant")
     path = request.form["path"]
     logger.debug(f"path={path}")
     path2 = os.path.join(app_config.ROOT_PATH, path);

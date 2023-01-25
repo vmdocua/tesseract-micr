@@ -6,9 +6,9 @@ import io
 import pytesseract
 from PIL import Image
 
-from tesseract_micr.imgproc import ImageProcessor
-from tesseract_micr.hocr import HocrParser
-from tesseract_micr.core import app_config
+from docsultant.imgproc import ImageProcessor
+from docsultant.hocr import HocrParser
+from docsultant.core import app_config
 
 logger = logging.getLogger(__name__)
 

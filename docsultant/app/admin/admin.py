@@ -6,7 +6,7 @@ import time
 from flask import Flask, render_template, make_response, \
     request, Blueprint, redirect
 
-from tesseract_micr.core import app_config
+from docsultant.core import app_config
 
 logger = logging.getLogger(__name__)
 logger.debug("name=" + __name__)
@@ -45,8 +45,6 @@ def hw():
     d["Hostname"] = socket.gethostname()
     d["Uptime"] = str(timedelta(seconds=time.time() - app_config.START_TIME))
     d["Blueprints"] = str([v.import_name for k, v in app.blueprints.items()])
-    d["Config path"] = '<br>'.join([f'<a href="inifile?index={i}">{x}</a>' for i, x in enumerate(app_config.CONFIG_PATHS)])
     return render_template('admin/info.j2', sysinfo=d)
-    #return Markup('<h3>TODO: system info</h3>')
 
 

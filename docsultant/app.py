@@ -5,8 +5,8 @@ from flask import Flask, render_template
 from core import app_init
 from core import app_config
 
-from tesseract_micr.app.admin import admin as admin
-from tesseract_micr.app.test import test as test
+from docsultant.app.admin import admin as admin
+from docsultant.app.test import test as test
 
 logger = logging.getLogger(__name__)
 logger.debug("name=" + __name__)
