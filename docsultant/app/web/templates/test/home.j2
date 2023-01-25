@@ -6,6 +6,10 @@
 
 <body>
 
+    <hr>
+    <h1>Common</h1>
+    <hr>
+
     <h3>hw</h3>
     <form method="post" action="hw">
         <input type="hidden" name="action" value="hw"/>
@@ -31,6 +35,10 @@
             </tr>
         </table>
     </form><br>
+
+    <hr>
+    <h1>OCR</h1>
+    <hr>
 
     <h3>tesseract_version</h3>
     <form method="post" action="tesseract_version">
@@ -103,123 +111,6 @@
         </table>
     </form><br>
 
-    <h3>pil_border</h3>
-    <form method="post" action="pil_border">
-        <input type="hidden" name="action" value="pil_border"/>
-        <table>
-            <tr>
-                <td>Image:</td>
-                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
-            </tr>
-            <tr>
-                <td>Width:</td>
-                <td><input name="width" type="text" value="20" /></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Execute" /></td>
-            </tr>
-        </table>
-    </form><br>
-
-    <h3>vips_version</h3>
-    <form method="post" action="vips_version">
-        <input type="hidden" name="action" value="vips_version"/>
-        <table>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Execute" /></td>
-            </tr>
-        </table>
-    </form><br>
-
-    <h3>vips_bw</h3>
-    <form method="post" action="vips_bw">
-        <input type="hidden" name="action" value="vips_bw"/>
-        <table>
-            <tr>
-                <td>Image:</td>
-                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Execute" /></td>
-            </tr>
-        </table>
-    </form><br>
-
-    <h3>vips_sharpen</h3>
-    <form method="post" action="vips_sharpen">
-        <input type="hidden" name="action" value="vips_sharpen"/>
-        <table>
-            <tr>
-                <td>Image:</td>
-                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Execute" /></td>
-            </tr>
-        </table>
-    </form><br>
-
-    <h3>vips_rotate</h3>
-    <form method="post" action="vips_rotate">
-        <input type="hidden" name="action" value="vips_rotate"/>
-        <table>
-            <tr>
-                <td>Image:</td>
-                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
-            </tr>
-            <tr>
-                <td>Angle(90,180,270):</td>
-                <td><input name="angle" type="text" value="90" /></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Execute" /></td>
-            </tr>
-        </table>
-    </form><br>
-
-    <h3>vips_threshold</h3>
-    <form method="post" action="vips_threshold">
-        <input type="hidden" name="action" value="vips_threshold"/>
-        <table>
-            <tr>
-                <td>Image:</td>
-                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
-            </tr>
-            <tr>
-                <td>Threshold(0..255):</td>
-                <td><input name="threshold" type="text" value="140" /></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Execute" /></td>
-            </tr>
-        </table>
-    </form><br>
-
-    <h3>vips_chain</h3>
-    <form method="post" action="vips_chain">
-        <input type="hidden" name="action" value="vips_chain"/>
-        <table>
-            <tr>
-                <td>Image:</td>
-                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
-            </tr>
-            <tr>
-                <td>Commands(|separated):</td>
-                <td><input name="commands" type="text" value="sharpen|bw|threshold(140)|rotate(90)" /></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Execute" /></td>
-            </tr>
-        </table>
-    </form><br>
-
     <h3>ocr_check</h3>
     <form method="post" action="ocr_check">
         <input type="hidden" name="action" value="ocr_check"/>
@@ -239,6 +130,161 @@
         </table>
     </form><br>
 
+    <hr>
+    <h1>Image Processor</h1>
+    <hr>
+
+    <h3>border</h3>
+    <form method="post" action="imgproc_border">
+        <input type="hidden" name="action" value="imgproc_border"/>
+        <table>
+            <tr>
+                <td>Image:</td>
+                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
+            </tr>
+            <tr>
+                <td>Width:</td>
+                <td><input name="width" type="text" value="20" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Execute" /></td>
+            </tr>
+        </table>
+    </form><br>
+
+    <h3>bw</h3>
+    <form method="post" action="imgproc_bw">
+        <input type="hidden" name="action" value="imgproc_bw"/>
+        <table>
+            <tr>
+                <td>Image:</td>
+                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Execute" /></td>
+            </tr>
+        </table>
+    </form><br>
+
+    <h3>invert</h3>
+    <form method="post" action="imgproc_invert">
+        <input type="hidden" name="action" value="imgproc_invert"/>
+        <table>
+            <tr>
+                <td>Image:</td>
+                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Execute" /></td>
+            </tr>
+        </table>
+    </form><br>
+
+    <h3>scale</h3>
+    <form method="post" action="imgproc_scale">
+        <input type="hidden" name="action" value="imgproc_scale"/>
+        <table>
+            <tr>
+                <td>Image:</td>
+                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
+            </tr>
+            <tr>
+                <td>Factor (float):</td>
+                <td><input name="factor" type="text" value="1.5" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Execute" /></td>
+            </tr>
+        </table>
+    </form><br>
+
+
+    <h3>sharpen</h3>
+    <form method="post" action="imgproc_sharpen">
+        <input type="hidden" name="action" value="vips_sharpen"/>
+        <table>
+            <tr>
+                <td>Image:</td>
+                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Execute" /></td>
+            </tr>
+        </table>
+    </form><br>
+
+    <h3>rotate</h3>
+    <form method="post" action="imgproc_rotate">
+        <input type="hidden" name="action" value="imgproc_rotate"/>
+        <table>
+            <tr>
+                <td>Image:</td>
+                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
+            </tr>
+            <tr>
+                <td>Angle(90,180,270):</td>
+                <td><input name="angle" type="text" value="90" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Execute" /></td>
+            </tr>
+        </table>
+    </form><br>
+
+    <h3>threshold</h3>
+    <form method="post" action="imgproc_threshold">
+        <input type="hidden" name="action" value="imgproc_threshold"/>
+        <table>
+            <tr>
+                <td>Image:</td>
+                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
+            </tr>
+            <tr>
+                <td>Threshold(0..255):</td>
+                <td><input name="threshold" type="text" value="140" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Execute" /></td>
+            </tr>
+        </table>
+    </form><br>
+
+    <h3>chain</h3>
+    <form method="post" action="imgproc_chain">
+        <input type="hidden" name="action" value="imgproc_chain"/>
+        <table>
+            <tr>
+                <td>Image:</td>
+                <td><input name="path" type="text" value="data/check_01.jpg" /></td>
+            </tr>
+            <tr>
+                <td>Commands( | separated):</td>
+                <td><input name="commands" type="text" value="sharpen|bw|threshold(140)|rotate(90)" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Execute" /></td>
+            </tr>
+        </table>
+    </form><br>
+
+    <h3>vips_version</h3>
+    <form method="post" action="vips_version">
+        <input type="hidden" name="action" value="vips_version"/>
+        <table>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Execute" /></td>
+            </tr>
+        </table>
+    </form><br>
 
 </body>
 </html>

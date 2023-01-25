@@ -105,77 +105,6 @@ def tesseract_micr_hocr():
     #logger.debug(f"res={res}")
     return response_ok(res2, "application/x-view-source")
 
-@test_bp.route('/pil_border', methods=['GET', 'POST'])
-def pil_border():
-    logger.debug("pil_border")
-    path = request.form["path"]
-    logger.debug(f"path={path}")
-    width = int(request.form["width"])
-    logger.debug(f"width={width}")
-    path2 = os.path.join(app_config.ROOT_PATH, path);
-    p = ImageProcessor()
-    data = p.border(path2, width)
-    return response_ok(data, p.OUT_MIME_TYPE)
-
-@test_bp.route('/vips_version', methods=['GET', 'POST'])
-def vips_version():
-    logger.debug("vips_version")
-    p = ImageProcessor()
-    return response_ok(p.vipsVersion(), "text/plain")
-
-@test_bp.route('/vips_bw', methods=['GET', 'POST'])
-def vips_bw():
-    logger.debug("vips_bw")
-    path = request.form["path"]
-    logger.debug(f"path={path}")
-    path2 = os.path.join(app_config.ROOT_PATH, path);
-    p = ImageProcessor()
-    data = p.bw(path2)
-    return response_ok(data, p.OUT_MIME_TYPE)
-
-@test_bp.route('/vips_sharpen', methods=['GET', 'POST'])
-def vips_sharpen():
-    logger.debug("vips_sharpen")
-    path = request.form["path"]
-    logger.debug(f"path={path}")
-    path2 = os.path.join(app_config.ROOT_PATH, path);
-    p = ImageProcessor()
-    data = p.sharpen(path2)
-    return response_ok(data, p.OUT_MIME_TYPE)
-
-@test_bp.route('/vips_rotate', methods=['GET', 'POST'])
-def vips_rotate():
-    logger.debug("vips_rotate")
-    path = request.form["path"]
-    angle = int(request.form["angle"])
-    logger.debug(f"path={path}, angle={angle}")
-    path2 = os.path.join(app_config.ROOT_PATH, path);
-    p = ImageProcessor()
-    data = p.rotate(path2, angle)
-    return response_ok(data, p.OUT_MIME_TYPE)
-
-@test_bp.route('/vips_threshold', methods=['GET', 'POST'])
-def vips_threshold():
-    logger.debug("vips_threshold")
-    path = request.form["path"]
-    threshold = int(request.form["threshold"])
-    logger.debug(f"path={path}, threshold={threshold}")
-    path2 = os.path.join(app_config.ROOT_PATH, path);
-    p = ImageProcessor()
-    data = p.threshold(path2, threshold)
-    return response_ok(data, p.OUT_MIME_TYPE)
-
-@test_bp.route('/vips_chain', methods=['GET', 'POST'])
-def vips_chain():
-    logger.debug("vips_chain")
-    path = request.form["path"]
-    commands = request.form["commands"]
-    logger.debug(f"path={path}, commands={commands}")
-    path2 = os.path.join(app_config.ROOT_PATH, path);
-    p = ImageProcessor()
-    data = p.chain(path2, commands)
-    return response_ok(data, p.OUT_MIME_TYPE)
-
 @test_bp.route('/ocr_check', methods=['GET', 'POST'])
 def ocr_check():
     logger.debug("ocr_check")
@@ -190,3 +119,95 @@ def ocr_check():
     logger.debug(f"res={res}")
     return response_ok(res, "text/plain")
 
+@test_bp.route('/imgproc_border', methods=['GET', 'POST'])
+def imgproc_border():
+    logger.debug("imgproc_border")
+    path = request.form["path"]
+    logger.debug(f"path={path}")
+    width = int(request.form["width"])
+    logger.debug(f"width={width}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    p = ImageProcessor()
+    data = p.border(path2, width)
+    return response_ok(data, p.OUT_MIME_TYPE)
+
+@test_bp.route('/imgproc_bw', methods=['GET', 'POST'])
+def imgproc_bw():
+    logger.debug("imgproc_bw")
+    path = request.form["path"]
+    logger.debug(f"path={path}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    p = ImageProcessor()
+    data = p.bw(path2)
+    return response_ok(data, p.OUT_MIME_TYPE)
+
+@test_bp.route('/imgproc_invert', methods=['GET', 'POST'])
+def imgproc_invert():
+    logger.debug("imgproc_invert")
+    path = request.form["path"]
+    logger.debug(f"path={path}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    p = ImageProcessor()
+    data = p.invert(path2)
+    return response_ok(data, p.OUT_MIME_TYPE)
+
+@test_bp.route('/imgproc_scale', methods=['GET', 'POST'])
+def imgproc_scale():
+    logger.debug("imgproc_scale")
+    path = request.form["path"]
+    logger.debug(f"path={path}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    factor = float(request.form["factor"])
+    logger.debug(f"factor={factor}")
+    p = ImageProcessor()
+    data = p.scale(path2, factor)
+    return response_ok(data, p.OUT_MIME_TYPE)
+
+@test_bp.route('/imgproc_sharpen', methods=['GET', 'POST'])
+def imgproc_sharpen():
+    logger.debug("imgproc_sharpen")
+    path = request.form["path"]
+    logger.debug(f"path={path}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    p = ImageProcessor()
+    data = p.sharpen(path2)
+    return response_ok(data, p.OUT_MIME_TYPE)
+
+@test_bp.route('/imgproc_rotate', methods=['GET', 'POST'])
+def imgproc_rotate():
+    logger.debug("imgproc_rotate")
+    path = request.form["path"]
+    angle = int(request.form["angle"])
+    logger.debug(f"path={path}, angle={angle}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    p = ImageProcessor()
+    data = p.rotate(path2, angle)
+    return response_ok(data, p.OUT_MIME_TYPE)
+
+@test_bp.route('/imgproc_threshold', methods=['GET', 'POST'])
+def imgproc_threshold():
+    logger.debug("imgproc_threshold")
+    path = request.form["path"]
+    threshold = int(request.form["threshold"])
+    logger.debug(f"path={path}, threshold={threshold}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    p = ImageProcessor()
+    data = p.threshold(path2, threshold)
+    return response_ok(data, p.OUT_MIME_TYPE)
+
+@test_bp.route('/imgproc_chain', methods=['GET', 'POST'])
+def imgproc_chain():
+    logger.debug("imgproc_chain")
+    path = request.form["path"]
+    commands = request.form["commands"]
+    logger.debug(f"path={path}, commands={commands}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    p = ImageProcessor()
+    data = p.chain(path2, commands)
+    return response_ok(data, p.OUT_MIME_TYPE)
+
+@test_bp.route('/vips_version', methods=['GET', 'POST'])
+def vips_version():
+    logger.debug("vips_version")
+    p = ImageProcessor()
+    return response_ok(p.vips_version(), "text/plain")
