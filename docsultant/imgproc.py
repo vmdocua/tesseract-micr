@@ -75,11 +75,16 @@ class ImageProcessor:
 
         return res
 
-    def invert(self, path, width: int = 20):
-        logger.debug("invert(...,{})".format(width))
-        width = int(width)
+    def invert(self, path):
+        logger.debug("invert(...)")
         image = self.vips_load(path)
-        image = pyvips.Image.invert(image)
+        if image.hasalpha():
+            alpha = image[-1]
+            image = image[0:image.bands - 1]
+            image = pyvips.Image.invert(image)
+            image = image.bandjoin(alpha)
+        else:
+            image = pyvips.Image.invert(image)
         return self.to_buffer(image)
 
     def vips_load(self, pathOrData) -> pyvips.Image:
