@@ -50,7 +50,7 @@ def response_ok(res, mimetype):
 def tesseract_version():
     logger.debug("tesseract_version")
     t = TesseractOcr()
-    return Markup(t.tesseractVersion())
+    return response_ok(t.tesseract_version(), "text/plain")
 
 @test_bp.route('/tesseract_plain', methods=['GET', 'POST'])
 def tesseract_plain():

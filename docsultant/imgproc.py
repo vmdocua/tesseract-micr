@@ -141,6 +141,12 @@ class ImageProcessor:
         image = image.sharpen()
         return self.to_buffer(image)
 
+    def top(self, path, height):
+        logger.debug("top(...,{})".format(height))
+        image = self.vips_load(path)
+        image = image.crop(0, 0, image.width, height)
+        return self.to_buffer(image)
+
     def threshold(self, path, threshold):
         logger.debug(f"threshold(.., threshold={threshold})")
         image = self.vips_load(path)
