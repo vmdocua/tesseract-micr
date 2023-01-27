@@ -2,6 +2,24 @@
     <head>
         <title>Test Flask</title>
         <link rel="STYLESHEET" href="../static/main.css" type="text/css">
+        <style>
+            INPUT[type=text] {
+        	    width: 600px
+            }
+
+            INPUT[type=submit] {
+        	    width: 80px
+            }
+
+            TD {
+                FONT-SIZE: -1;
+                FONT-FAMILY: verdana;
+            }
+
+            .flabel {
+                width : 200px
+            }
+        </style>
     </head>
 
 <body>
@@ -15,7 +33,7 @@
         <input type="hidden" name="action" value="hw"/>
         <table>
             <tr>
-                <td></td>
+                <td class=flabel></td>
                 <td><input type="submit" value="hw" /></td>
             </tr>
         </table>
@@ -26,7 +44,7 @@
         <input type="hidden" name="action" value="ping"/>
         <table>
             <tr>
-                <td>Text:</td>
+                <td class=flabel>Text:</td>
                 <td><input type="text" name="text1" value="zzz"/></td>
             </tr>
             <tr>
@@ -45,7 +63,7 @@
         <input type="hidden" name="action" value="tesseract_version"/>
         <table>
             <tr>
-                <td></td>
+                <td class=flabel></td>
                 <td><input type="submit" value="Execute" /></td>
             </tr>
         </table>
@@ -56,11 +74,15 @@
         <input type="hidden" name="action" value="tesseract_plain"/>
         <table>
             <tr>
-                <td>Image:</td>
+                <td class=flabel>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
             </tr>
             <tr>
-                <td></td>
+                <td class=flabel>Image Processor Chain:</td>
+                <td><input name="chain" type="text" value="" /></td>
+            </tr>
+            <tr>
+                <td class=flabel></td>
                 <td><input type="submit" value="Execute" /></td>
             </tr>
         </table>
@@ -71,8 +93,12 @@
         <input type="hidden" name="action" value="tesseract_hocr"/>
         <table>
             <tr>
-                <td>Image:</td>
+                <td class=flabel>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
+            </tr>
+            <tr>
+                <td class=flabel>Image Processor Chain:</td>
+                <td><input name="chain" type="text" value="" /></td>
             </tr>
             <tr>
                 <td></td>
@@ -86,7 +112,7 @@
         <input type="hidden" name="action" value="tesseract_micr"/>
         <table>
             <tr>
-                <td>Image:</td>
+                <td class=flabel>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
             </tr>
             <tr>
@@ -101,7 +127,7 @@
         <input type="hidden" name="action" value="tesseract_micr_hocr"/>
         <table>
             <tr>
-                <td>Image:</td>
+                <td class=flabel>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
             </tr>
             <tr>
@@ -116,11 +142,11 @@
         <input type="hidden" name="action" value="ocr_check"/>
         <table>
             <tr>
-                <td>Image:</td>
+                <td class=flabel>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
             </tr>
             <tr>
-                <td>Image proc chain:</td>
+                <td class=flabel>Image proc chain:</td>
                 <td><input name="chain" type="text" value="sharpen|threshold(140)|bw" /></td>
             </tr>
             <tr>
@@ -139,11 +165,11 @@
         <input type="hidden" name="action" value="imgproc_border"/>
         <table>
             <tr>
-                <td>Image:</td>
+                <td class=flabel>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
             </tr>
             <tr>
-                <td>Width:</td>
+                <td class=flabel>Width:</td>
                 <td><input name="width" type="text" value="20" /></td>
             </tr>
             <tr>
@@ -158,7 +184,7 @@
         <input type="hidden" name="action" value="imgproc_bw"/>
         <table>
             <tr>
-                <td>Image:</td>
+                <td class=flabel>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
             </tr>
             <tr>
@@ -173,7 +199,7 @@
         <input type="hidden" name="action" value="imgproc_invert"/>
         <table>
             <tr>
-                <td>Image:</td>
+                <td class=flabel>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
             </tr>
             <tr>
@@ -188,11 +214,11 @@
         <input type="hidden" name="action" value="imgproc_scale"/>
         <table>
             <tr>
-                <td>Image:</td>
+                <td class=flabel>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
             </tr>
             <tr>
-                <td>Factor (float):</td>
+                <td class=flabel>Factor (float):</td>
                 <td><input name="factor" type="text" value="1.5" /></td>
             </tr>
             <tr>
@@ -208,7 +234,7 @@
         <input type="hidden" name="action" value="vips_sharpen"/>
         <table>
             <tr>
-                <td>Image:</td>
+                <td class=flabel>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
             </tr>
             <tr>
@@ -223,11 +249,11 @@
         <input type="hidden" name="action" value="imgproc_rotate"/>
         <table>
             <tr>
-                <td>Image:</td>
+                <td class=flabel>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
             </tr>
             <tr>
-                <td>Angle(90,180,270):</td>
+                <td class=flabel>Angle(90,180,270):</td>
                 <td><input name="angle" type="text" value="90" /></td>
             </tr>
             <tr>
@@ -242,11 +268,11 @@
         <input type="hidden" name="action" value="imgproc_threshold"/>
         <table>
             <tr>
-                <td>Image:</td>
+                <td class=flabel>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
             </tr>
             <tr>
-                <td>Threshold(0..255):</td>
+                <td class=flabel>Threshold(0..255):</td>
                 <td><input name="threshold" type="text" value="140" /></td>
             </tr>
             <tr>
@@ -261,11 +287,11 @@
         <input type="hidden" name="action" value="imgproc_chain"/>
         <table>
             <tr>
-                <td>Image:</td>
+                <td class=flabel>Image:</td>
                 <td><input name="path" type="text" value="data/check_01.jpg" /></td>
             </tr>
             <tr>
-                <td>Commands( | separated):</td>
+                <td class=flabel>Commands( | separated):</td>
                 <td><input name="commands" type="text" value="sharpen|bw|threshold(140)|rotate(90)" /></td>
             </tr>
             <tr>
@@ -280,7 +306,7 @@
         <input type="hidden" name="action" value="vips_version"/>
         <table>
             <tr>
-                <td></td>
+                <td class=flabel></td>
                 <td><input type="submit" value="Execute" /></td>
             </tr>
         </table>

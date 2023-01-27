@@ -57,10 +57,12 @@ def tesseract_plain():
     logger.debug("tesseract_plain")
     path = request.form["path"]
     logger.debug(f"path={path}")
+    chain = request.form["chain"]
+    logger.debug(f"chain={chain}")
     path2 = os.path.join(app_config.ROOT_PATH, path);
     logger.debug(f"path2={path2}")
     t = TesseractOcr()
-    res = t.tesseractPlain(path2)
+    res = t.tesseract_plain(path2, chain)
     logger.debug(f"res={res}")
     return response_ok(res, "text/plain")
 
@@ -69,10 +71,12 @@ def tesseract_hocr():
     logger.debug("tesseract_hocr")
     path = request.form["path"]
     logger.debug(f"path={path}")
+    chain = request.form["chain"]
+    logger.debug(f"chain={chain}")
     path2 = os.path.join(app_config.ROOT_PATH, path);
     logger.debug(f"path2={path2}")
     t = TesseractOcr()
-    res = t.tesseractHocr(path2)
+    res = t.tesseract_hocr(path2, chain)
     res2 = "\n".join([line.text for line in res.lines])
     res2 = res2 + "\n\n##############################\n\n" + res.hocr
     #logger.debug(f"res={res}")
@@ -87,7 +91,7 @@ def tesseract_micr():
     path2 = os.path.join(app_config.ROOT_PATH, path);
     logger.debug(f"path2={path2}")
     t = TesseractOcr()
-    res = t.tesseractMicr(path2)
+    res = t.tesseract_micr(path2)
     logger.debug(f"res={res}")
     return response_ok(res, "text/plain")
 
@@ -99,7 +103,7 @@ def tesseract_micr_hocr():
     path2 = os.path.join(app_config.ROOT_PATH, path);
     logger.debug(f"path2={path2}")
     t = TesseractOcr()
-    res = t.tesseractMicrHocr(path2)
+    res = t.tesseract_micr_hocr(path2)
     res2 = "\n".join([line.text for line in res.lines])
     res2 = res2 + "\n\n##############################\n\n" + res.hocr
     #logger.debug(f"res={res}")
@@ -115,7 +119,7 @@ def ocr_check():
     path2 = os.path.join(app_config.ROOT_PATH, path);
     logger.debug(f"path2={path2}")
     t = TesseractOcr()
-    res = t.ocrCheck(path2, chain)
+    res = t.ocr_check(path2, chain)
     logger.debug(f"res={res}")
     return response_ok(res, "text/plain")
 

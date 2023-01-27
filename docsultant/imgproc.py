@@ -16,11 +16,11 @@ logger = logging.getLogger(__name__)
 class ImageProcessor:
 
     #: default output format
-    OUT_VIPS_FORMAT = ".tif"
-    OUT_PIL_FORMAT = "TIFF"
+    OUT_VIPS_FORMAT = ".png" # ".tif"
+    OUT_PIL_FORMAT  = "PNG"  # TIFF"
 
     #: default output mime type
-    OUT_MIME_TYPE = "image/tiff"
+    OUT_MIME_TYPE = "image/png"  # "image/tiff"
 
     """
     def border(self, path, width=12):
@@ -126,6 +126,58 @@ class ImageProcessor:
             data = b.read()
             return data
         return None
+
+    def remove_lines(self, path):
+        logger.debug("remove_lines(...)")
+        image = self.vips_load(path)
+        # mask = pyvips.Image.mask_ideal(9, 1, 0.2, reject=True, optical=True)
+        # image = image.morph(mask, "erode")
+
+        mv = [
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128],
+            [128, 255, 128]
+        ]
+
+        mh = [
+            [128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128],
+            [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255],
+            [128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128]
+        ]
+
+        imagev = image.erode(mv)
+        imageh = image.erode(mh)
+
+        # image = pyvips.Image.merge(imagev, imageh, "horizontal", 1, 1)
+        imagehv = pyvips.Image.boolean(imageh, imagev, "or")
+
+        if imagehv.hasalpha():
+            alpha = imagehv[-1]
+            imagehv = imagehv[0:imagehv.bands - 1]
+            imagehv = pyvips.Image.invert(imagehv)
+            imagehv = imagehv.bandjoin(alpha)
+        else:
+            imagehv = pyvips.Image.invert(imagehv)
+
+        image = pyvips.Image.boolean(image, imagehv, "and")
+
+        return self.to_buffer(image)
 
     def rotate(self, path, angle):
         logger.debug(f"rotate(.., angle={angle})")
