@@ -3,8 +3,9 @@ import logging.config
 import sys
 import os
 import io
+import re
 import pytesseract
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 
 from docsultant.imgproc import ImageProcessor
 from docsultant.hocr import HocrParser
@@ -16,6 +17,31 @@ class TesseractOcr:
 
     def __init__(self):
         self.imgProc = ImageProcessor()
+
+    def hocr_visualize_as_png(self, path, chain: str, doc: HocrParser.Document) -> bytes:
+        logger.debug("hocr_visualize_as_png(..., path={}, chain={})".format(path, chain))
+        image: Image = None
+        if chain:
+            image = self.imgProc.chain(path, chain)
+        else:
+            image = self.imgProc.to_buffer(self.imgProc.vips_load(path))
+
+        image = Image.open(io.BytesIO(image))
+
+        draw = ImageDraw.Draw(image)
+        font = ImageFont.truetype("Arial", 16)
+        for w in doc.words:
+            rc = [w.bbox.left, w.bbox.top, w.bbox.right, w.bbox.bottom]
+            draw.rectangle(rc, outline="red")
+            txt = re.sub(r"[^a-zA-Z0-9]", " ", w.text)
+            draw.text((w.bbox.left, w.bbox.top), txt, font=font, fill="blue", align="center")
+
+        b = io.BytesIO()
+        image.save(b, format="PNG")
+        b.seek(0)
+        data = b.read()
+        return data
+
 
     def ocr_check(self, path, chain="sharpen|threshold(140)|bw") -> str:
         logger.debug(f'ocr_check(path={path})')

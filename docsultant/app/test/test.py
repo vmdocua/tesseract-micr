@@ -82,6 +82,19 @@ def tesseract_hocr():
     #logger.debug(f"res={res}")
     return response_ok(res2, "application/x-view-source")
 
+@test_bp.route('/tesseract_hocr_visualize', methods=['GET', 'POST'])
+def tesseract_hocr_visualize():
+    logger.debug("tesseract_hocr_visualize")
+    path = request.form["path"]
+    logger.debug(f"path={path}")
+    chain = request.form["chain"]
+    logger.debug(f"chain={chain}")
+    path2 = os.path.join(app_config.ROOT_PATH, path);
+    logger.debug(f"path2={path2}")
+    t = TesseractOcr()
+    doc = t.tesseract_hocr(path2, chain)
+    data = t.hocr_visualize_as_png(path2, chain, doc)
+    return response_ok(data, "image/png")
 
 @test_bp.route('/tesseract_micr', methods=['GET', 'POST'])
 def tesseract_micr():
