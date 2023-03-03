@@ -39,7 +39,7 @@ def config():
     return make_response(txt, 200, headers)
 
 @admin_bp.route('/info', methods=['GET', 'POST'])
-def hw():
+def info():
     logger.debug("info")
     d = {}
     d["Hostname"] = socket.gethostname()

@@ -331,5 +331,33 @@
         </table>
     </form><br>
 
+    <hr>
+    <h1>Tesseract Train</h1>
+    <hr>
+
+    <h3>box_scale</h3>
+    <form method="post" action="box_scale">
+        <input type="hidden" name="action" value="box_scale"/>
+        <table>
+            <tr>
+                <td class=flabel>Box in path:</td>
+                <td><input name="pathIn" type="text" value="data/001_96dpi.box" /></td>
+            </tr>
+            <tr>
+                <td class=flabel>Box out path:</td>
+                <td><input name="pathOut" type="text" value="data/001_298dpi.box" /></td>
+            </tr>
+            <tr>
+                <td class=flabel>Scale:</td>
+                <td><input name="scale" type="text" value="3.1" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Execute" /></td>
+            </tr>
+        </table>
+    </form><br>
+
+
 </body>
 </html>

@@ -18,6 +18,29 @@ class TesseractOcr:
     def __init__(self):
         self.imgProc = ImageProcessor()
 
+    def box_scale(self, path_in: str, path_out: str, scale: float) -> str:
+        logger.debug("box_scale(..., path_in={}, path_out={}, scale={})".format(path_in, path_out, scale))
+        # box line= <symbol> <left> <bottom> <right> <top> <page>
+        with open(path_in) as f:
+            with open(path_out, 'w', encoding='utf-8') as f2:
+                lines = [line.rstrip() for line in f]
+                for line in lines:
+                    logger.debug(line)
+                    a = line.split(" ")
+                    a[1] = self.box_scale_scale(a[1], scale)
+                    a[2] = self.box_scale_scale(a[2], scale)
+                    a[3] = self.box_scale_scale(a[3], scale)
+                    a[4] = self.box_scale_scale(a[4], scale)
+                    line2 = " ".join(a)
+                    logger.debug(" -> "+line2)
+                    f2.write(line2)
+                    f2.write('\n')
+
+        return "Done"
+
+    def box_scale_scale(self, coord: str, scale: float) -> str:
+        return str(int(int(coord)*float(scale)))
+
     def hocr_visualize_as_png(self, path, chain: str, doc: HocrParser.Document) -> bytes:
         logger.debug("hocr_visualize_as_png(..., path={}, chain={})".format(path, chain))
         image: Image = None

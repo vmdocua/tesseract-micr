@@ -98,7 +98,7 @@ def tesseract_hocr_visualize():
 
 @test_bp.route('/tesseract_micr', methods=['GET', 'POST'])
 def tesseract_micr():
-    logger.debug("docsultant")
+    logger.debug("tesseract_micr")
     path = request.form["path"]
     logger.debug(f"path={path}")
     path2 = os.path.join(app_config.ROOT_PATH, path);
@@ -228,3 +228,25 @@ def vips_version():
     logger.debug("vips_version")
     p = ImageProcessor()
     return response_ok(p.vips_version(), "text/plain")
+
+@test_bp.route('/box_scale', methods=['GET', 'POST'])
+def box_scale():
+    logger.debug("box_scale")
+    #
+    path_in = request.form["pathIn"]
+    logger.debug(f"path_in={path_in}")
+    path_in2 = os.path.join(app_config.ROOT_PATH, path_in);
+    logger.debug(f"path_in2={path_in2}")
+    #
+    path_out = request.form["pathOut"]
+    logger.debug(f"path_out={path_out}")
+    path_out2 = os.path.join(app_config.ROOT_PATH, path_out);
+    logger.debug(f"path_out2={path_out2}")
+    #
+    scale = float(request.form["scale"])
+    logger.debug(f"scale={scale}")
+    #
+    t = TesseractOcr()
+    res = t.box_scale(path_in2, path_out2, scale)
+    logger.debug(f"res={res}")
+    return response_ok(res, "text/plain")
