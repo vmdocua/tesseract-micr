@@ -250,3 +250,41 @@ def box_scale():
     res = t.box_scale(path_in2, path_out2, scale)
     logger.debug(f"res={res}")
     return response_ok(res, "text/plain")
+
+@test_bp.route('/generate_box_image', methods=['GET', 'POST'])
+def generate_box_image():
+    logger.debug("generate_box_image")
+    #
+    path_font = request.form["pathFont"]
+    logger.debug(f"path_font={path_font}")
+    path_font2 = os.path.join(app_config.ROOT_PATH, path_font);
+    logger.debug(f"path_font2={path_font2}")
+    #
+    font_size = int(request.form["fontSize"])
+    logger.debug(f"font_size={font_size}")
+    #
+    font_mode = request.form["fontMode"]
+    logger.debug(f"font_mode={font_mode}")
+    #
+    path_gt = request.form["pathGt"]
+    logger.debug(f"path_gt={path_gt}")
+    path_gt2 = os.path.join(app_config.ROOT_PATH, path_gt);
+    logger.debug(f"path_gt2={path_gt2}")
+    #
+    path_tif = request.form["pathTif"]
+    logger.debug(f"path_tif={path_tif}")
+    path_tif2 = os.path.join(app_config.ROOT_PATH, path_tif);
+    logger.debug(f"path_tif2={path_tif2}")
+    #
+    path_box = request.form["pathBox"]
+    logger.debug(f"path_box={path_box}")
+    path_box2 = os.path.join(app_config.ROOT_PATH, path_box);
+    logger.debug(f"path_box2={path_box2}")
+    #
+    scale = int(request.form["scale"])
+    logger.debug(f"scale={scale}")
+    #
+    t = TesseractOcr()
+    res = t.generate_box_image(path_font2, font_size, font_mode, path_gt2, path_tif2, path_box2, scale)
+    logger.debug(f"res={res}")
+    return response_ok(res, "text/plain")

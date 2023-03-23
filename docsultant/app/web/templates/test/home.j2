@@ -358,6 +358,45 @@
         </table>
     </form><br>
 
+    <h3>generate_box_image</h3>
+    <form method="post" action="generate_box_image">
+        <input type="hidden" name="action" value="generate_box_image"/>
+        <table>
+            <tr>
+                <td class=flabel>Font .ttf path:</td>
+                <td><input name="pathFont" type="text" value="data/001.ttf" /></td>
+            </tr>
+            <tr>
+                <td class=flabel>Font size pt:</td>
+                <td><input name="fontSize" type="text" value="16" /></td>
+            </tr>
+            <tr>
+                <td class=flabel>Font mode:</td>
+                <td><input name="fontMode" type="text" value="1" /></td>
+            </tr>
+            <tr>
+                <td class=flabel>Ground truth .gt.txt path:</td>
+                <td><input name="pathGt" type="text" value="data/001.gt.txt" /></td>
+            </tr>
+            <tr>
+                <td class=flabel>Output .tif image path:</td>
+                <td><input name="pathTif" type="text" value="data/001.tif" /></td>
+            </tr>
+            <tr>
+                <td class=flabel>Output .box image path:</td>
+                <td><input name="pathBox" type="text" value="data/001.box" /></td>
+            </tr>
+            <tr>
+                <td class=flabel>Scale:</td>
+                <td><input name="scale" type="text" value="1" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Execute" /></td>
+            </tr>
+        </table>
+    </form><br>
+
 
 </body>
 </html>

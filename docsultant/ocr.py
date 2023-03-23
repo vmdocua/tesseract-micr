@@ -41,6 +41,40 @@ class TesseractOcr:
     def box_scale_scale(self, coord: str, scale: float) -> str:
         return str(int(int(coord)*float(scale)))
 
+    def generate_box_image(self, path_font: str, font_size: int, font_mode, path_gt: str,
+                           path_tif: str, path_box: str, scale: int) -> str:
+
+        margin: int = 30
+        # read text to draw
+        text = ""
+        with open(path_gt) as f:
+            text = f.read()
+        line_count = text.count('\n')+1
+
+        # get font
+        font = ImageFont.truetype(path_font, font_size)
+        ascent, descent = font.getmetrics()
+
+        # text_w = font.getmask(text).getbbox()[2]
+        # text_h = line_count*(font.getmask(text).getbbox()[3] + descent)
+        text_w, text_h = font.getsize_multiline(text)
+        logger.debug(f"text_w={text_w}, text_h={text_h}")
+
+        image = Image.new("RGB", (text_w + margin*2, text_h + margin*2 ), "white")
+        draw = ImageDraw.Draw(image)
+        if font_mode:
+            draw.fontmode = font_mode
+
+        draw.text((margin, margin), text, font=font, fill="black")
+
+
+        if scale>1:
+            image = image.resize([image.width*scale, image.height*scale], Image.NEAREST)
+
+        image.save(path_tif, format="TIFF")
+
+        return f"Done.\n\nImage: {path_tif}\nBox: {path_box}"
+
     def hocr_visualize_as_png(self, path, chain: str, doc: HocrParser.Document) -> bytes:
         logger.debug("hocr_visualize_as_png(..., path={}, chain={})".format(path, chain))
         image: Image = None
