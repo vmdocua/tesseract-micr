@@ -27,6 +27,9 @@ class TesseractOcr:
                 for line in lines:
                     logger.debug(line)
                     a = line.split(" ")
+                    if len(a)==7 and a[0]=="" and a[1]=="":
+                        del a[0]
+                        a[0] = " "
                     a[1] = self.box_scale_scale(a[1], scale)
                     a[2] = self.box_scale_scale(a[2], scale)
                     a[3] = self.box_scale_scale(a[3], scale)
@@ -67,8 +70,10 @@ class TesseractOcr:
 
         text_w, text_h = font.getsize_multiline(text)
         logger.debug(f"text_w={text_w}, text_h={text_h}")
+        image_w = text_w + margin*2
+        image_h = text_h + margin*2
 
-        image = Image.new("RGB", (text_w + margin*2, text_h + margin*2 ), "white")
+        image = Image.new("RGB", (image_w, image_h), "white")
         draw = ImageDraw.Draw(image)
         if font_mode:
             draw.fontmode = font_mode
@@ -77,12 +82,15 @@ class TesseractOcr:
 
         x0, y0 = margin, margin
         l = 0
+        boxes = []
         for i, c in enumerate(text):
             x1, y1, x2, y2 = font.getbbox(c)
             if c=='\n':
                 l += 1
                 x0 = margin
                 y0 = margin + int(text_h*l/line_count) + int(l/2)
+                boxes.append("{} {} {} {} {} {}".format(" ", x1 * scale, (image_h - y2) * scale,
+                                                        x2 * scale, (image_h - y1) * scale, 0))
             else:
                 box1 = (int(x0 + x1 + 0.5) , int(y0 + y1) - 1 , int(x0 + x2 + 0.5), int(y0 + y2) + 2)
                 image1 = image.crop(box1)
@@ -91,13 +99,17 @@ class TesseractOcr:
                 box3 = box1
                 if box2:
                     box3 = (box1[0] + box2[0], box1[1] + box2[1], box1[0] + box2[2] - 1, box1[1] + box2[3] - 1)
-                draw.rectangle(box3, fill=None, outline='green', width=1)
+                # draw.rectangle(box3, fill=None, outline='green', width=1)
+                boxes.append("{} {} {} {} {} {}".format(c, box3[0]*scale, (image_h - box3[3] -1)*scale,
+                                                        (box3[2] + 1)*scale, (image_h - box3[1])*scale, 0))
                 x0 += font.getlength(c)
 
         if scale>1:
             image = image.resize([image.width*scale, image.height*scale], Image.NEAREST)
 
         image.save(path_tif, format="TIFF")
+        with open(path_box, 'w') as f:
+            f.write("\n".join(boxes))
 
         return f"Done.\n\nImage: {path_tif}\nBox: {path_box}"
 
