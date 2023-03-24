@@ -5,7 +5,7 @@ import os
 import io
 import re
 import pytesseract
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageChops
 
 from docsultant.imgproc import ImageProcessor
 from docsultant.hocr import HocrParser
@@ -41,6 +41,16 @@ class TesseractOcr:
     def box_scale_scale(self, coord: str, scale: float) -> str:
         return str(int(int(coord)*float(scale)))
 
+    def generate_box_crop(self, image):
+        if image.height == 0 or image.width == 0:
+            return None
+        image2 = Image.new(image.mode, image.size, (255, 255, 255))
+        diff = ImageChops.difference(image, image2)
+        diff = ImageChops.add(diff, diff, 2.0, -100)
+        bbox = diff.getbbox()
+        if bbox:
+            return bbox
+
     def generate_box_image(self, path_font: str, font_size: int, font_mode, path_gt: str,
                            path_tif: str, path_box: str, scale: int) -> str:
 
@@ -55,8 +65,6 @@ class TesseractOcr:
         font = ImageFont.truetype(path_font, font_size)
         ascent, descent = font.getmetrics()
 
-        # text_w = font.getmask(text).getbbox()[2]
-        # text_h = line_count*(font.getmask(text).getbbox()[3] + descent)
         text_w, text_h = font.getsize_multiline(text)
         logger.debug(f"text_w={text_w}, text_h={text_h}")
 
@@ -67,6 +75,24 @@ class TesseractOcr:
 
         draw.text((margin, margin), text, font=font, fill="black")
 
+        x0, y0 = margin, margin
+        l = 0
+        for i, c in enumerate(text):
+            x1, y1, x2, y2 = font.getbbox(c)
+            if c=='\n':
+                l += 1
+                x0 = margin
+                y0 = margin + int(text_h*l/line_count) + int(l/2)
+            else:
+                box1 = (int(x0 + x1 + 0.5) , int(y0 + y1) - 1 , int(x0 + x2 + 0.5), int(y0 + y2) + 2)
+                image1 = image.crop(box1)
+                box2 = self.generate_box_crop(image1)
+                logger.debug(f"c={c}, size={image1.size}, box1={box1}, box2={box2}")
+                box3 = box1
+                if box2:
+                    box3 = (box1[0] + box2[0], box1[1] + box2[1], box1[0] + box2[2] - 1, box1[1] + box2[3] - 1)
+                draw.rectangle(box3, fill=None, outline='green', width=1)
+                x0 += font.getlength(c)
 
         if scale>1:
             image = image.resize([image.width*scale, image.height*scale], Image.NEAREST)
